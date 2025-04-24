@@ -1,0 +1,44 @@
+{
+    "name": "rakoitde/cialpineui",
+    "description": "CodeIgniter 4 Cell Component based on AlpineJS",
+    "type": "library",
+    "require-dev": {
+        "codeigniter4/framework": "dev-master",
+        "codeigniter4/devkit": "dev-develop"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Rakoitde\\CiAlpineUI\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kornberger, Ralf",
+            "email": "rakoitde@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {},
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "analyze": [
+            "phpstan analyze",
+            "psalm",
+            "rector process --dry-run"
+        ],
+        "test": "phpunit",
+        "cs": [
+            "php-cs-fixer fix --ansi --verbose --dry-run --diff"
+        ],
+        "cs-fix": [
+            "php-cs-fixer fix --ansi --verbose --diff"
+        ],
+        "style": "@cs-fix"
+    }
+}
