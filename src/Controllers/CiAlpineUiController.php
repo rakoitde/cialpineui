@@ -48,10 +48,8 @@ class CiAlpineUiController extends ResourceController
             return $this->failForbidden("You have no permission to access '{$action}' in component '{$viewCellClass}'");
         }
 
-        if (isset($request['request']['params'])) {
-            $params = $request['request']['params'];
-            call_user_func_array([$this->component, $action], $params);
-        }
+        $params = $request['request']['params'] ?? [];
+        call_user_func_array([$this->component, $action], $params);
 
         if ($this->component->returnAsHtml()) {
             return $this->respond(['html' => $this->component->render()]);
