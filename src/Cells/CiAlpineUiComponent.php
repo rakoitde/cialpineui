@@ -43,14 +43,9 @@ class CiAlpineUiComponent extends Cell
         return $this->getXDataTag() . ' ' . $this->getXComponentTag();
     }
 
-    public function __construct()
-    {
-        $this->response = response();
-    }
-
     public function getOnlyPublicProperties()
     {
-        if (isset($this->propertiesOnly)) {
+        if (! isset($this->propertiesOnly)) {
             return $this->getPublicProperties();
         }
 
@@ -63,5 +58,10 @@ class CiAlpineUiComponent extends Cell
         }
 
         return $publicProperties;
+    }
+
+    public function __construct()
+    {
+        $this->response = response();
     }
 }
