@@ -38,7 +38,7 @@ class CiAlpineUiController extends ResourceController
         $action = $request['request']['action'];
 
         // Check if action exists
-        $viewCellClass = str_replace('/', '\\', $request['component']['name']);
+        $viewCellClass = $this->component::class;
         if ($this->isNoPublicAction($action)) {
             return $this->fail("Method '{$action}' not found in component '{$viewCellClass}'");
         }
