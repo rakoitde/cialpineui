@@ -45,7 +45,7 @@ use Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponent;
 
 class NewCell extends CiAlpineUiComponent
 {
-    public int $count = 0;
+    public $count = 0;
     
     public function increment()
     {
