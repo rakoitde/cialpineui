@@ -4,6 +4,7 @@ namespace Rakoitde\CiAlpineUI\Controllers;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use Exception;
 use ReflectionClass;
 use ReflectionMethod;
 
@@ -29,8 +30,6 @@ class CiAlpineUiController extends ResourceController
             return $this->fail('No component found');
         }
         $this->component->fill($request['data'] ?? []);
-
-        // return $this->respond($this->getPublicMethodNamesFromClass($this->component));
 
         if (! isset($request['request']['action'])) {
             return $this->fail('no Action send');
@@ -65,13 +64,17 @@ class CiAlpineUiController extends ResourceController
         }
 
         $viewCellClass = str_replace('/', '\\', $request['component']['name']);
-
         if (! class_exists($viewCellClass)) {
             $viewCellClass = 'App\Cells\\' . $viewCellClass;
         }
 
         if (class_exists($viewCellClass)) {
-            return new $viewCellClass();
+            $viewCellObject = new $viewCellClass();
+            if (! ($viewCellObject instanceof \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponent)) {
+                throw new Exception($viewCellClass . ' is not an instanceof \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponent', 1);
+            }
+
+            return $viewCellObject;
         }
 
         return null;

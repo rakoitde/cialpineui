@@ -215,6 +215,29 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         $result->assertStatus(400);
     }
 
+    public function testTestComponentIsNotAnInstanceOfCiComponent()
+    {
+        
+        $request = new \CodeIgniter\HTTP\IncomingRequest(
+            new \Config\App(),
+            new \CodeIgniter\HTTP\URI('http://example.com/component'),
+            null,
+            new \CodeIgniter\HTTP\UserAgent(),
+        );
+        
+        $body = json_encode([
+            'component' => ['name' => 'App\Controllers\Home'],
+            'request' =>['action' => 'testAsJsonWithProperties'],
+        ]);
+        
+        $this->expectException(\Exception::class);
+
+        $result = $this->withRequest($request)
+        ->withBody($body)
+        ->controller(CiAlpineUiController::class)
+        ->execute('index');
+    }
+
     public function testComponentCouldRender()
     {
         $ciAlpineUiComponent = new CiAlpineUiComponentTestCell();
