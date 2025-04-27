@@ -70,7 +70,7 @@ class NewCell extends CiAlpineUiComponent
 </div>
 ```
 
-3. Include **AlpineJS**, **CiAlpineUiJs** and the **New* component in your layout
+3. Include **AlpineJS**, **CiAlpineUiJs** and the **New** component in your layout
 
 ```php
 <!doctype html>
