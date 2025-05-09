@@ -5,6 +5,10 @@ namespace Rakoitde\CiAlpineUI\Cells;
 class CiAlpineUiComponentTestCell extends CiAlpineUiComponent
 {
     public $canAccess = false;
+    public bool $boolVal;
+    public int $intVal;
+    public float $floatVal;
+    public string $stringVal;
 
     public function testAsHtml()
     {
