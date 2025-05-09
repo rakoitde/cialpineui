@@ -4,12 +4,13 @@ namespace Rakoitde\CiAlpineUI\Cells;
 
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\View\Cells\Cell;
+use CodeIgniter\HTTP\ResponseInterface;
 
 class CiAlpineUiComponent extends Cell
 {
     use ResponseTrait;
 
-    protected $response;
+    protected ResponseInterface $response;
     protected bool $returnAsHtml = true;
     protected ?array $propertiesOnly;
 
