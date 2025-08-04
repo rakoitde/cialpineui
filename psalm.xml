@@ -14,6 +14,10 @@
         <ignoreFiles>
             <directory name="vendor" />
             <directory name="src/Views" />
+            <file name="src/Cells/ci_alpine_ui_component_test_cell.php" />
         </ignoreFiles>
     </projectFiles>
+    <stubs>
+        <file name="psalm-stubs/codeigniter-helpers.php"/>
+    </stubs>
 </psalm>
