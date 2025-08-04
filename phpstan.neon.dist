@@ -18,3 +18,9 @@ parameters:
 		- vendor/codeigniter4/framework/system/Helpers
 	dynamicConstantNames:
 		- CodeIgniter\CodeIgniter::CI_VERSION
+	ignoreErrors:
+		# Ignore dynamic $routes in Config/Routes.php
+		- '#Variable \$routes might not be defined#'
+		- '#Cannot find referenced variable \$routes#'
+
+	reportUnmatchedIgnoredErrors: false
