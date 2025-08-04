@@ -23,7 +23,7 @@ composer install
 
 ## Requirements
 
-- PHP 8.1+
+- PHP 8.3+
 - CodeIgniter 4
 
 ## Usage
@@ -101,7 +101,7 @@ class NewCell extends CiAlpineUiComponent
 Scripts available:
 
 ```bash
-# composer analyze    # Static analysis (phpstan, psalm, rector)
+composer analyze    # Static analysis (phpstan, psalm, rector)
 composer test       # Run PHPUnit tests
 composer cs         # Check coding style
 composer cs-fix     # Fix coding style
