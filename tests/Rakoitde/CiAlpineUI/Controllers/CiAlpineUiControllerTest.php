@@ -42,7 +42,7 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         );
 
         $body = json_encode([
-            'component' => ['name' => 'Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell'],
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
         ]);
 
         $result = $this->withRequest($request)
@@ -67,7 +67,7 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         );
 
         $body = json_encode([
-            'component' => ['name' => 'Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell'],
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
             'request' =>['action' => 'notFound'],
         ]);
 
@@ -93,7 +93,7 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         );
         
         $body = json_encode([
-            'component' => ['name' => 'Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell'],
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
             'request' =>['action' => 'testNoPermission'],
         ]);
         
@@ -118,11 +118,10 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
             new \CodeIgniter\HTTP\UserAgent(),
         );
 
-        $ciAlpineUiComponent = new CiAlpineUiComponentTestCell();
-        $ciAlpineUiComponent->testNoPermission();
+        $ciAlpineUiComponent = (new CiAlpineUiComponentTestCell())->testNoPermission();
         
         $body = json_encode([
-            'component' => ['name' => 'Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell'],
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
             'request' =>['action' => 'testAsHtml'],
         ]);
         
@@ -133,7 +132,7 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
 
         $json = \json_decode($result->getJSON());
 
-        $this->assertEquals('<div x-data="{\'canAccess\':false}" x-component="Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell"></div>', $json->html);
+        $this->assertEquals('<div x-data="{\'canAccess\':false,\'boolVal\':false,\'intVal\':0,\'floatVal\':0,\'stringVal\':\'\',\'arrayVal\':[]}" x-component="Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell"></div>', $json->html);
         $result->assertStatus(200);
     }
 
@@ -148,7 +147,7 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         );
         
         $body = json_encode([
-            'component' => ['name' => 'Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell'],
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
             'request' =>['action' => 'testAsJson'],
         ]);
         
@@ -174,7 +173,7 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         );
         
         $body = json_encode([
-            'component' => ['name' => 'Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell'],
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
             'request' =>['action' => 'testAsJsonWithProperties'],
         ]);
         
@@ -238,10 +237,47 @@ class CiAlpineUiControllerTest extends CIUnitTestCase
         ->execute('index');
     }
 
+    public function testTestDataFormat()
+    {
+
+        $request = new \CodeIgniter\HTTP\IncomingRequest(
+            new \Config\App(),
+            new \CodeIgniter\HTTP\URI('http://example.com/component'),
+            null,
+            new \CodeIgniter\HTTP\UserAgent(),
+        );
+
+        $body = [
+            'component' => ['name' => \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell::class],
+            'data'      => [
+                'boolVal'   => true,
+                'intVal'    => 1,
+                'doubleVal' => 1.234,
+                'floatVal'  => 1.123,
+                'stringVal' => 'String',
+                'arrayVal'  => ['Array'],
+            ],
+            'request'   => ['action' => 'testAsHtml'],
+        ];
+
+        $ciAlpineUiComponent = new CiAlpineUiComponentTestCell();
+        $ciAlpineUiComponent->render();
+
+        $result = $this  #->withRequest($request)
+        ->withBody(json_encode($body))
+        ->controller(CiAlpineUiController::class)
+        ->execute('index');
+
+        $json = json_decode($result->response()->getJSON());
+
+        $this->assertEquals('<div x-data="{\'canAccess\':false,\'boolVal\':true,\'intVal\':1,\'floatVal\':1.123,\'stringVal\':\'String\',\'arrayVal\':[\'Array\']}" x-component="Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell"></div>', $json->html);
+        $result->assertStatus(200);
+    }
+
     public function testComponentCouldRender()
     {
         $ciAlpineUiComponent = new CiAlpineUiComponentTestCell();
-        $this->assertEquals('<div x-data="{\'canAccess\':false}" x-component="Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell"></div>', $ciAlpineUiComponent->render());
+        $this->assertEquals('<div x-data="{\'canAccess\':false,\'boolVal\':false,\'intVal\':0,\'floatVal\':0,\'stringVal\':\'\',\'arrayVal\':[]}" x-component="Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponentTestCell"></div>', $ciAlpineUiComponent->render());
     }
 
 }

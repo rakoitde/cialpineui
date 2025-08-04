@@ -4,11 +4,12 @@ namespace Rakoitde\CiAlpineUI\Cells;
 
 class CiAlpineUiComponentTestCell extends CiAlpineUiComponent
 {
-    public $canAccess = false;
-    public bool $boolVal;
-    public int $intVal;
-    public float $floatVal;
-    public string $stringVal;
+    public $canAccess        = false;
+    public bool $boolVal     = false;
+    public int $intVal       = 0;
+    public float $floatVal   = 0.00;
+    public string $stringVal = '';
+    public array $arrayVal   = [];
 
     public function testAsHtml()
     {

@@ -3,16 +3,16 @@
 namespace Rakoitde\CiAlpineUI\Cells;
 
 use CodeIgniter\API\ResponseTrait;
-use CodeIgniter\View\Cells\Cell;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\View\Cells\Cell;
 
 class CiAlpineUiComponent extends Cell
 {
     use ResponseTrait;
 
     protected ResponseInterface $response;
-    protected bool $returnAsHtml = true;
-    protected ?array $propertiesOnly;
+    protected bool $returnAsHtml     = true;
+    protected ?array $propertiesOnly = null;
 
     protected function asJson(?array $propertiesOnly = null): self
     {
@@ -36,7 +36,7 @@ class CiAlpineUiComponent extends Cell
 
     public function getXComponentTag()
     {
-        return 'x-component="' . \str_replace('App\Cells\\', '', $this::class) . '"';
+        return 'x-component="' . \str_replace('App\Cells\\', '', static::class) . '"';
     }
 
     public function getXTags()
