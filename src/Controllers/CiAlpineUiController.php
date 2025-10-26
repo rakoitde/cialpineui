@@ -6,6 +6,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use Exception;
 use Override;
+use Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponent;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -77,7 +78,7 @@ class CiAlpineUiController extends ResourceController
 
         if (class_exists($viewCellClass)) {
             $viewCellObject = new $viewCellClass();
-            if (! ($viewCellObject instanceof \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponent)) {
+            if (! ($viewCellObject instanceof CiAlpineUiComponent)) {
                 throw new Exception($viewCellClass . ' is not an instanceof \Rakoitde\CiAlpineUI\Cells\CiAlpineUiComponent', 1);
             }
 

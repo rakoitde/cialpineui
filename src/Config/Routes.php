@@ -1,4 +1,6 @@
 <?php
 
-/** @var CodeIgniter\Router\RouteCollection $routes */
+use CodeIgniter\Router\RouteCollection;
+
+/** @var RouteCollection $routes */
 $routes->post('component', '\Rakoitde\CiAlpineUI\Controllers\CiAlpineUiController');
