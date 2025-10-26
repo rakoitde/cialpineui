@@ -1,0 +1,78 @@
+site_name: CodeIgniter CiAlpineUI
+site_description: CodeIgniter 4 Cell Component based on AlpineJS
+
+theme:
+  name: material
+  # logo: assets/logo.svg
+  favicon: assets/favicon.ico
+  icon:
+    repo: fontawesome/brands/github
+  font:
+    text: Raleway
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      primary: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  features:
+    - navigation.instant
+    - content.code.copy
+    - navigation.footer
+    - content.action.edit
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+
+extra:
+  homepage: https://rakoboit.github.io/cialpineui/
+  generator: false
+
+site_url: https://rakoboit.github.io/cialpineui/
+repo_url: https://github.com/rakoitde/cialpineui
+#edit_uri: edit/develop/docs/
+copyright: Copyright &copy; 2025 Ralf Kornberger.
+
+markdown_extensions:
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      use_pygments: true
+      linenums: false
+      pygments_lang_class: true
+      extend_pygments_lang:
+        php:
+          startinline: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.critic
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+      fallback_to_build_date: true
+nav:
+  - Home: index.md
+  - Getting Started:
+    - getting_started/install.md
+    - getting_started/first_component.md
+    - getting_started/authorization.md
+    - getting_started/json_response.md
+#  - Guides:
+#    - guides/guide.md
