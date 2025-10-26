@@ -102,7 +102,8 @@ class CiAlpineUiController extends ResourceController
             }
 
             $reflectionProperty     = new ReflectionProperty($component, $publicProperty);
-            $reflectionPropertyName = $reflectionProperty->getType()->getName();
+            $reflectionPropertyType = $reflectionProperty->getType();
+            $reflectionPropertyName = $reflectionPropertyType ? $reflectionPropertyType->getName() : null;
 
             $data[$publicProperty] = match ($reflectionPropertyName) {
                 'bool'   => $data[$publicProperty] === 'false' ? false : (bool) ($data[$publicProperty]),
