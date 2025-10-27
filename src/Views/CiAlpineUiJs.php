@@ -2,6 +2,7 @@
      document.addEventListener('alpine:init', () => {
 
         Alpine.magic('cell', (el, { Alpine }) => {
+
             return new Proxy(Alpine.$data(el), {
                 
                 get(_, method) {
@@ -10,7 +11,7 @@
                         return _[method];
                     }
                     
-                    return async (...args) => {
+                    const callBackend = async (...args) => {
 
                         // replace forms in formData
                         args.forEach((arg, index) => {
@@ -22,7 +23,6 @@
                         const componentData = Alpine.$data(el);
 
                         const oldData = JSON.parse(JSON.stringify(componentData))
-            
 
                         const root = Alpine.closestRoot(el)
                         const componentId = root.getAttribute('x-id') || null
@@ -76,7 +76,37 @@
                         }
 
                         return result;
-                    }
+                    };
+
+                    const cellProxy = new Proxy(callBackend, {
+                        get(target, prop) {
+
+                            if (prop === 'interval') {
+                    
+                                    return (delay, ...args) => {
+                                        const ms = parseInt(delay);
+                                        if (isNaN(ms)) {
+                                            throw new Error(`Invalid interval delay: ${delay}`);
+                                        }
+
+                                        const timer = setInterval(() => target(...args), ms);
+
+                                        if (Alpine.version && Alpine.version.startsWith('3.13')) {
+                                            $cleanup(() => clearInterval(timer));
+                                        } else {
+                                            el.addEventListener('destroy', () => clearInterval(timer));
+                                        }
+
+                                        return timer;
+                                    };
+                            }
+
+                            return target[prop];
+                        },
+                    });
+
+                    return cellProxy;
+
                 }
             });
         });

@@ -74,5 +74,6 @@ nav:
     - getting_started/first_component.md
     - getting_started/authorization.md
     - getting_started/json_response.md
+    - getting_started/cell_directive.md
 #  - Guides:
 #    - guides/guide.md
