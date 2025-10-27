@@ -3,6 +3,8 @@
 
         Alpine.magic('cell', (el, { Alpine }) => {
 
+            if (!el.__cellTimers) el.__cellTimers = new Set();
+
             return new Proxy(Alpine.$data(el), {
                 
                 get(_, method) {
@@ -62,16 +64,18 @@
 
                         if (result.html) {
 
+                            if (el.__cellTimers) {
+                                for (const t of el.__cellTimers) clearInterval(t);
+                                el.__cellTimers.clear();
+                            }
                             root.outerHTML = result.html;
+                            return;
 
-                        } else {
-
-                            const newData = result
-    
-                            for (const key in newData) {
-                                if (typeof componentData[key] !== 'function') {
-                                    componentData[key] = newData[key]
-                                }
+                        } 
+                        
+                        for (const key in result) {
+                            if (typeof componentData[key] !== 'function') {
+                                componentData[key] = result[key]
                             }
                         }
 
@@ -91,10 +95,18 @@
 
                                         const timer = setInterval(() => target(...args), ms);
 
+                                        el.__cellTimers.add(timer);
+
                                         if (Alpine.version && Alpine.version.startsWith('3.13')) {
-                                            $cleanup(() => clearInterval(timer));
+                                            $cleanup(() => {
+                                                clearInterval(timer);
+                                                el.__cellTimers.delete(timer);
+                                            });
                                         } else {
-                                            el.addEventListener('destroy', () => clearInterval(timer));
+                                            el.addEventListener('destroy', () => {
+                                                clearInterval(timer);
+                                                el.__cellTimers.delete(timer);
+                                            });
                                         }
 
                                         return timer;
